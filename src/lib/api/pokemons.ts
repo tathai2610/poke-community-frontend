@@ -43,8 +43,6 @@ export async function fetchFeaturedPokemons(): Promise<Pokemon[]> {
   return mapped
 }
 
-export default fetchFeaturedPokemons
-
 export async function fetchPokemons(): Promise<Pokemon[]> {
   const res = await fetch(apiUrl("/api/v1/pokemons"))
   if (!res.ok) throw new Error(`Failed to fetch pokemons: ${res.status}`)
@@ -80,4 +78,12 @@ export async function fetchPokemons(): Promise<Pokemon[]> {
   })
 
   return mapped
+}
+
+export async function fetchPokemonById(idOrName: string): Promise<any> {
+  const res = await fetch(apiUrl(`/api/v1/pokemons/${encodeURIComponent(idOrName)}`))
+  if (!res.ok) throw new Error(`Failed to fetch pokemon ${idOrName}: ${res.status}`)
+  const json = await res.json()
+  // return raw json for flexibility; caller will map to the UI shape
+  return json
 }
